@@ -1,11 +1,33 @@
 const express = require("express");
+var hbs = require("hbs");
 
 const app = express();
 const port = 4000;
 
+app.set("view engine", "hbs");
+
+app.use(express.static(__dirname + "/public"));
+hbs.registerPartials(__dirname + "/views/template", function (err) {});
+
 app.get("/", (req, res) => {
-	// res.sendFile(__dirname + "/public/index.html");
-	res.sendFile(`${__dirname}/public/index.html`);
+	res.render("index", {
+		titulo: "Mi primera prueba con node",
+		tituloBody: "Aprendiendo con Node",
+	});
+});
+
+app.get("/servicios", (req, res) => {
+	res.render("servicios", {
+		titulo: "Pagina de servicios",
+		tituloBody: "Aprendiendo con Node",
+	});
+});
+
+app.get("/*", (req, res) => {
+	res.render("404", {
+		titulo: "Error 404 conacte con WebMaick",
+		tituloBody: "Aprendiendo con Node",
+	});
 });
 
 app.listen(port, () => {
